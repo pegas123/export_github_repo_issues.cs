@@ -15,7 +15,6 @@ namespace GitHubIssues
         string GITHUB_USER;
         string GITHUB_PASSWORD;
         string TOKEN;
-        int MAX_ISSUES = 100;
 
         #region constructors
         /// <summary>
@@ -71,22 +70,14 @@ namespace GitHubIssues
         /// <summary>
         /// to control the maximum number of issues returned
         /// </summary>
-        public int MaxIssues
-        {
-            get 
-            { 
-                return MAX_ISSUES;
-            }
-            set 
-            {
-                MAX_ISSUES = value;
-            }
-        }
+        public int MaxIssues { get; set; } = 100;
+
+        public ItemStateFilter StateFilter { get; set; } = ItemStateFilter.Open;
+        public IssueFilter IssueRelationFilter { get; set; } = IssueFilter.All;
+
         #endregion
 
-        internal List<Issue> GetIssues(
-                    ItemStateFilter itemStateFilter = ItemStateFilter.Open,
-                    IssueFilter issueFilter = IssueFilter.All)
+        internal List<Issue> GetIssues()
         {
             GitHubClient client = GetClient();
             // 
@@ -101,8 +92,8 @@ namespace GitHubIssues
             // If you know the specific repository, just invoke that:
             // 
             var issuesForOctokit = client.Issue.GetAllForRepository(REPO_OWNER, REPO_NAME,
-                new RepositoryIssueRequest() { State = itemStateFilter, Filter = issueFilter },
-                new ApiOptions() { PageSize = MAX_ISSUES });
+                new RepositoryIssueRequest() { State = StateFilter, Filter = IssueRelationFilter },
+                new ApiOptions() { PageSize = MaxIssues });
             List<Issue> issues = issuesForOctokit.Result.ToList();
             return issues;
         }
