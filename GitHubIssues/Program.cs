@@ -20,9 +20,9 @@ namespace GitHubIssues
     class Program
     {
         const string GITHUB_USER = "pegas123";
-        const string GITHUB_PASSWORD = "pzqw3QiSaLbDES";
-        const string REPO_OWNER = "VestalEnterprises";
-        const string REPO_NAME = "workforceconx";
+        const string GITHUB_PASSWORD = "************";
+        const string REPO_OWNER = "*****************";
+        const string REPO_NAME = "******************";
         const int MAX_ISSUES = 100;
         static void Main(string[] args)
         {
