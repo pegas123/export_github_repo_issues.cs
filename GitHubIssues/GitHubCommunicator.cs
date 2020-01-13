@@ -77,7 +77,7 @@ namespace GitHubIssues
 
         #endregion
 
-        internal List<Issue> GetIssues()
+        internal Tuple<List<Issue>, List<Tuple<int,IssueComment>>> GetIssues(bool withComments = false)
         {
             GitHubClient client = GetClient();
             // 
@@ -95,7 +95,22 @@ namespace GitHubIssues
                 new RepositoryIssueRequest() { State = StateFilter, Filter = IssueRelationFilter },
                 new ApiOptions() { PageSize = MaxIssues });
             List<Issue> issues = issuesForOctokit.Result.ToList();
-            return issues;
+            var comments = new List<Tuple<int,IssueComment>>();
+            if(withComments)
+            {
+                foreach(var issue in issues)
+                {
+                    if(issue.Comments > 0)
+                    {
+                        var issueCmments = client.Issue.Comment.GetAllForIssue(REPO_OWNER, REPO_NAME, issue.Number);
+                        foreach(var comment in issueCmments.Result)
+                        {
+                            comments.Add(new Tuple<int, IssueComment>(issue.Number, comment));
+                        }
+                    }
+                }
+            }
+            return new Tuple<List<Issue>, List<Tuple<int, IssueComment>>>(issues,comments);
         }
 
         private GitHubClient GetClient()

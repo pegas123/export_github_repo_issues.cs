@@ -1,6 +1,7 @@
 ﻿using Octokit;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,7 +40,11 @@ namespace GitHubIssues
 
             SetMaxIssues(communicator);
             SetFilters(communicator);
-            List<Issue> issues = communicator.GetIssues();
+            var issuesAndComments = communicator.GetIssues(true);
+            var issues = issuesAndComments.Item1;
+            var comments = issuesAndComments.Item2;
+            //Debug.Print($"{issues[0].}");
+            //var js = Json(issues, JsonRequestBehavior.AllowGet);
 
         }
 
