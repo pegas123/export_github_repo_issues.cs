@@ -13,6 +13,7 @@ namespace GitHubIssues
     /// or to Excel
     /// Using Octokit 
     /// </summary>
+    /// <see cref="https://developer.github.com/v3/issues/"/>
     /// <see cref="https://github.com/octokit/octokit.net"/>
     /// <see cref="https://octokitnet.readthedocs.io/en/latest/issues/"/>
     /// <remarks>
