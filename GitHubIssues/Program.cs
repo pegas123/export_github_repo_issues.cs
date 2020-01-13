@@ -19,7 +19,7 @@ namespace GitHubIssues
     /// </remarks>
     class Program
     {
-        const string GITHUB_USER = "pegas123";
+        const string GITHUB_USER = "****************";
         const string GITHUB_PASSWORD = "************";
         const string REPO_OWNER = "*****************";
         const string REPO_NAME = "******************";
