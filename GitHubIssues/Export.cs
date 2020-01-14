@@ -15,34 +15,35 @@ namespace GitHubIssues
             string path = Properties.Settings.Default.ExportFilePathAndName;
             MakeSureFileAvailable(path);
 
-            var s = new StringBuilder("number, state, title, by, when, body");
-            s.AppendLine();
+            var s = new StringBuilder("number, state, by, when, title, body");
             foreach(var issue in issues)
             {
+                s.AppendLine();
                 s.Append(issue.Number);
                 s.Append(',');
                 s.Append(issue.State.ToString());
                 s.Append(',');
+                s.Append(issue.User.Login);
+                s.Append(',');
+                s.Append(issue.CreatedAt.ToString("M/d/y"));
+                s.Append(',');
                 s.Append(issue.Title.EscapeText());
                 s.Append(',');
-                s.Append(issue.User.Name);
-                s.Append(',');
-                s.Append(issue.CreatedAt.ToString());
-                s.Append(',');
-                s.AppendLine(issue.Body);
+                s.Append(issue.Body.EscapeText());
                 if (issue.Comments > 0)
                 {
-                    foreach(var comment in comments.Where(x => x.Item1 == issue.Id).OrderBy(x => x.Item2.CreatedAt))
+                    foreach(var comment in comments.Where(x => x.Item1 == issue.Number).OrderBy(x => x.Item2.CreatedAt))
                     {
+                        s.AppendLine();
+                        s.Append("\"\",");
+                        s.Append("\"\",");
+                        s.Append(comment.Item2.User.Login);
                         s.Append(',');
+                        s.Append(comment.Item2.CreatedAt.ToString("M/d/y"));
                         s.Append(',');
                         s.Append("comment");
                         s.Append(',');
-                        s.Append(comment.Item2.User.Name);
-                        s.Append(',');
-                        s.Append(comment.Item2.CreatedAt.ToString());
-                        s.Append(',');
-                        s.AppendLine(comment.Item2.Body);
+                        s.Append(comment.Item2.Body.EscapeText());
                     }
                 }
             }
@@ -51,9 +52,9 @@ namespace GitHubIssues
 
         private static void MakeSureFileAvailable(string path)
         {
-            var pathname = Path.GetFullPath(path).Replace(Path.GetFileName(path), "");
-            if (!Directory.Exists(pathname)) System.IO.Directory.CreateDirectory(pathname);
             var fileName = Path.GetFileName(path);
+            var pathname = Path.GetFullPath(path).Replace(fileName, "");
+            if (!Directory.Exists(pathname)) System.IO.Directory.CreateDirectory(pathname);
             // Check if file already exists. If yes, delete it. 
             if (System.IO.File.Exists(fileName))
             {
@@ -82,7 +83,7 @@ namespace GitHubIssues
         {
             if (s.Any(x => x == ',' || x == '\"' || x == '\r' || x == '\n'))
             {
-                return s.Replace("\"", "\"\"");
+                return $"\"{s.Replace("\"", "\"\"")}\"";
             }
             else
             {
