@@ -27,6 +27,6 @@ Enables Issue filtration by
         
         //     All issues the authenticated user can see, regardless of participation or creation. (Default)
         
-All controls are in the App.config file.
+All controls are in the App.config file. This is where you need to set the GitHub repository name, owner and alaso credentials if the repository is private.
 
 Uses https://github.com/octokit/octokit.net
