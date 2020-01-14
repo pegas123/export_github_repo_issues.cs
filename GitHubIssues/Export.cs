@@ -51,7 +51,7 @@ namespace GitHubIssues
 
         private static void MakeSureFileAvailable(string path)
         {
-            var pathname = Path.GetFullPath(path);
+            var pathname = Path.GetFullPath(path).Replace(Path.GetFileName(path), "");
             if (!Directory.Exists(pathname)) System.IO.Directory.CreateDirectory(pathname);
             var fileName = Path.GetFileName(path);
             // Check if file already exists. If yes, delete it. 
