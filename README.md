@@ -1,7 +1,9 @@
 # export_repo_issues.cs
-export GitHub repository issues
+Export Issue list from GitHub repository
 
 Simple/minimalistic C# Console Application to pull the list of Issues from private or public GitHub project repository.
+
+The current varsion creates a CSV file with an issue and comment lines. Comments are included by default, can be excluded at Project.cs Line 43 by setting the parameter withComments: false.
 
 Enables Issue filtration by 
 
