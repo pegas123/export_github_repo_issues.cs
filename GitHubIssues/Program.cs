@@ -41,11 +41,10 @@ namespace GitHubIssues
             SetMaxIssues(communicator);
             SetFilters(communicator);
             var issuesAndComments = communicator.GetIssues(true);
-            var issues = issuesAndComments.Item1;
-            var comments = issuesAndComments.Item2;
-            //Debug.Print($"{issues[0].}");
-            //var js = Json(issues, JsonRequestBehavior.AllowGet);
-
+            if ("csv".Equals(Properties.Settings.Default.ExportFormat, StringComparison.OrdinalIgnoreCase))
+            {
+                Export.SaveAsCsv(issuesAndComments.Item1, issuesAndComments.Item2);
+            }
         }
 
         private static void SetFilters(GitHubCommunicator communicator)
