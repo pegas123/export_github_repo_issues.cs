@@ -1,4 +1,4 @@
-# export_repo_issues.cs
+# export_github_repo_issues.cs
 Export Issue list from GitHub repository
 
 Simple/minimalistic C# Console Application to pull the list of Issues from private or public GitHub project repository.
